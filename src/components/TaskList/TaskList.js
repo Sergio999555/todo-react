@@ -1,17 +1,19 @@
-import React from "react";
-import Task from "../Task/Task";
-import propTypes from "prop-types";
-import "../TaskList/TaskList.css";
+import React from 'react';
+
+import Task from '../Task/Task';
+
+// import propTypes from 'prop-types';
+import '../TaskList/TaskList.css';
 
 export default class TaskList extends React.Component {
   static defaultProps = {
     onToggleCompleted: () => {},
   };
 
-  static propTypes = {
-    onToggleCompleted: propTypes.func,
-    todos: propTypes.arrayOf(propTypes.object).isRequired,
-  };
+  // static propTypes = {
+  //   onToggleCompleted: propTypes.func,
+  //   todos: propTypes.arrayOf(propTypes.object).isRequired,
+  // };
 
   render() {
     const { todos, onDeleted, onToggleCompleted } = this.props;
@@ -19,12 +21,7 @@ export default class TaskList extends React.Component {
       const { id, ...itemProps } = item;
 
       return (
-        <Task
-          {...itemProps}
-          key={id}
-          onDeleted={() => onDeleted(id)}
-          onToggleCompleted={() => onToggleCompleted(id)}
-        />
+        <Task {...itemProps} key={id} onDeleted={() => onDeleted(id)} onToggleCompleted={() => onToggleCompleted(id)} />
       );
     });
 

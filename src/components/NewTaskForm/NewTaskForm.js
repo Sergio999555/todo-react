@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 export default class NewTaskForm extends Component {
   state = {
-    label: "",
+    label: '',
   };
 
   onLabelChange = (event) => {
@@ -14,7 +14,7 @@ export default class NewTaskForm extends Component {
   onSubmit = (event) => {
     event.preventDefault();
     this.props.onAdded(this.state.label);
-    this.setState({ label: "" });
+    this.setState({ label: '' });
   };
 
   render() {

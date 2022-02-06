@@ -1,20 +1,16 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import AppHeader from "../AppHeader/AppHeader";
-import TaskList from "../TaskList/TaskList";
-import NewTaskForm from "../NewTaskForm/NewTaskForm";
-import Footer from "../Footer/Footer";
-import "../App/App.css";
+import AppHeader from '../AppHeader/AppHeader';
+import TaskList from '../TaskList/TaskList';
+import NewTaskForm from '../NewTaskForm/NewTaskForm';
+import Footer from '../Footer/Footer';
+import '../App/App.css';
 
 export default class App extends Component {
   maxId = 1;
   state = {
-    todoData: [
-      this.createTaskItem("Задача №1"),
-      this.createTaskItem("Задача №2"),
-      this.createTaskItem("Задача №3"),
-    ],
-    filter: "all",
+    todoData: [this.createTaskItem('Задача №1'), this.createTaskItem('Задача №2'), this.createTaskItem('Задача №3')],
+    filter: 'all',
   };
 
   createTaskItem(label) {
@@ -67,9 +63,9 @@ export default class App extends Component {
   };
 
   filterTasks(todoData, filter) {
-    if (filter === "all") return todoData;
-    if (filter === "active") return todoData.filter((el) => !el.completed);
-    if (filter === "completed") return todoData.filter((el) => el.completed);
+    if (filter === 'all') return todoData;
+    if (filter === 'active') return todoData.filter((el) => !el.completed);
+    if (filter === 'completed') return todoData.filter((el) => el.completed);
   }
 
   clearAllCompleted = () => {
@@ -92,11 +88,7 @@ export default class App extends Component {
         <AppHeader />
         <section className="main">
           <NewTaskForm onAdded={this.addItem} />
-          <TaskList
-            todos={visibleItems}
-            onDeleted={this.deleteItem}
-            onToggleCompleted={this.onToggleCompleted}
-          />
+          <TaskList todos={visibleItems} onDeleted={this.deleteItem} onToggleCompleted={this.onToggleCompleted} />
           <Footer
             toDo={todoCount}
             onFilterItems={this.filterItems}
