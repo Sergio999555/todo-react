@@ -1,6 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
+import propTypes from 'prop-types';
 
-export default class NewTaskForm extends Component {
+export default class NewTaskForm extends React.Component {
+  static defaultProps = {
+    onAdded: () => {},
+  };
+  static propTypes = {
+    onAdded: propTypes.func,
+  };
+
   state = {
     label: '',
   };

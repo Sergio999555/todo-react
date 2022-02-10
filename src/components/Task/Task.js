@@ -1,21 +1,27 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import ruLocale from 'date-fns/locale/ru';
 import '../Task/Task.css';
 
 export default class Task extends React.Component {
+  static defaultProps = {
+    label: '',
+    onDeleted: () => {},
+    onToggleCompleted: () => {},
+    completed: false,
+  };
+  static propTypes = {
+    label: propTypes.string,
+    onDeleted: propTypes.func,
+    onToggleCompleted: propTypes.func,
+    completed: propTypes.bool,
+  };
+
   state = {
     completed: false,
     editing: false,
     label: '',
-  };
-
-  editTask = () => {
-    this.setState(({ editing }) => {
-      return {
-        editing: !editing,
-      };
-    });
   };
 
   render() {
@@ -44,7 +50,7 @@ export default class Task extends React.Component {
           <button className="icon icon-destroy" onClick={onDeleted}></button>
         </div>
         <div>
-          <input type="text" className="edit" onChange={this.onLabelChange} autoFocus />
+          <input type="text" className="edit" />
         </div>
       </li>
     );

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import AppHeader from '../AppHeader/AppHeader';
 import TaskList from '../TaskList/TaskList';
@@ -6,7 +6,7 @@ import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import Footer from '../Footer/Footer';
 import '../App/App.css';
 
-export default class App extends Component {
+export default class App extends React.Component {
   maxId = 1;
   state = {
     todoData: [this.createTaskItem('Задача №1'), this.createTaskItem('Задача №2'), this.createTaskItem('Задача №3')],

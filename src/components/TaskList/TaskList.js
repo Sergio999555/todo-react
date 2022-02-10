@@ -1,27 +1,32 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import Task from '../Task/Task';
-
-// import propTypes from 'prop-types';
 import '../TaskList/TaskList.css';
 
 export default class TaskList extends React.Component {
   static defaultProps = {
+    todos: [],
+    onDeleted: () => {},
     onToggleCompleted: () => {},
   };
 
-  // static propTypes = {
-  //   onToggleCompleted: propTypes.func,
-  //   todos: propTypes.arrayOf(propTypes.object).isRequired,
-  // };
+  static propTypes = {
+    todos: propTypes.arrayOf(propTypes.object).isRequired,
+    onDeleted: propTypes.func,
+    onToggleCompleted: propTypes.func,
+  };
 
   render() {
     const { todos, onDeleted, onToggleCompleted } = this.props;
     const elements = todos.map((item) => {
-      const { id, ...itemProps } = item;
-
       return (
-        <Task {...itemProps} key={id} onDeleted={() => onDeleted(id)} onToggleCompleted={() => onToggleCompleted(id)} />
+        <Task
+          {...item}
+          key={item.id}
+          onDeleted={() => onDeleted(item.id)}
+          onToggleCompleted={() => onToggleCompleted(item.id)}
+        />
       );
     });
 
