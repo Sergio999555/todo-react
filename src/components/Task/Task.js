@@ -1,7 +1,10 @@
 import React from 'react';
+import ruLocale from 'date-fns/locale/ru';
 import propTypes from 'prop-types';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import ruLocale from 'date-fns/locale/ru';
+
+import TaskTimer from '../TaskTimer/TaskTimer';
+
 import '../Task/Task.css';
 
 export default class Task extends React.Component {
@@ -38,10 +41,10 @@ export default class Task extends React.Component {
           <input className="toggle" type="checkbox" onClick={onToggleCompleted} />
           <label>
             <span className="description">{label}</span>
+            <TaskTimer />
             <span className="created">
               {formatDistanceToNow(new Date(), {
                 locale: ruLocale,
-                addSuffix: true,
                 includeSeconds: true,
               })}
             </span>

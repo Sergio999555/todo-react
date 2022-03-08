@@ -1,5 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import '../NewTaskForm/NewTaskForm.css';
 
 export default class NewTaskForm extends React.Component {
   static defaultProps = {
@@ -27,7 +28,7 @@ export default class NewTaskForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit} className="form">
         <input
           type="text"
           placeholder="What needs to be done?"

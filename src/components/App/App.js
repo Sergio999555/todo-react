@@ -9,7 +9,7 @@ import '../App/App.css';
 export default class App extends React.Component {
   maxId = 1;
   state = {
-    todoData: [this.createTaskItem('Задача №1'), this.createTaskItem('Задача №2'), this.createTaskItem('Задача №3')],
+    todoData: [],
     filter: 'all',
   };
 

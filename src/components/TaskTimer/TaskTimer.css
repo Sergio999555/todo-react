@@ -1,0 +1,26 @@
+.todo-list li label .timer {
+  font-size: 13px;
+  color: gray;
+  display: flex;
+  align-items: center;
+}
+.icon-pause {
+  margin: 0 10px 0 10px;
+}
+.icon-pause,
+.icon-play {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+.icon-play {
+  font-size: 15px;
+}
+
+.icon-pause:after {
+  content: '⏸';
+}
+
+.icon-play:after {
+  content: '▶';
+}
