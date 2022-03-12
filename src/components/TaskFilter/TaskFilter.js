@@ -1,43 +1,37 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
+import '../TaskFilter/TaskFilter.css';
+
 const filterButtons = [
   { name: 'all', label: 'All' },
   { name: 'active', label: 'Active' },
   { name: 'completed', label: 'Completed' },
 ];
 
-export default class TaskFilter extends React.Component {
-  static defaultProps = {
-    filter: 'all',
-    onFilterItems: () => {},
-  };
-  static propTypes = {
-    filter: propTypes.string,
-    onFilterItems: propTypes.func,
-  };
-
-  render() {
-    const { filter, onFilterItems, onClearAllCompleted } = this.props;
-    const buttons = filterButtons.map(({ name, label }) => {
-      const isActive = name === filter;
-      const classNames = isActive ? 'selected' : '';
-      return (
-        <li key={name}>
-          <button className={classNames} onClick={() => onFilterItems(name)}>
-            {label}
-          </button>
-        </li>
-      );
-    });
-
+const TaskFilter = ({ onFilterItems, filter }) => {
+  const buttons = filterButtons.map(({ name, label }) => {
+    const isActive = name === filter;
+    const classNames = isActive ? 'selected' : '';
     return (
-      <div className="footer">
-        <ul className="filters">{buttons}</ul>
-        <button className="clear-completed" onClick={onClearAllCompleted}>
-          Clear completed
+      <li key={name}>
+        <button className={classNames} onClick={() => onFilterItems(name)}>
+          {label}
         </button>
-      </div>
+      </li>
     );
-  }
-}
+  });
+
+  return <ul className="filters">{buttons}</ul>;
+};
+
+export default TaskFilter;
+
+TaskFilter.defaultProps = {
+  filter: 'all',
+  onFilterItems: () => {},
+};
+TaskFilter.propTypes = {
+  filter: propTypes.string,
+  onFilterItems: propTypes.func,
+};

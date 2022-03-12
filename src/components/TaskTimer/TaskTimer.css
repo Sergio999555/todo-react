@@ -9,9 +9,9 @@
 }
 .icon-pause,
 .icon-play {
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
+  font-size: 15px;
+
+  cursor: pointer;
 }
 .icon-play {
   font-size: 15px;

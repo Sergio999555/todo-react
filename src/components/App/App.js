@@ -1,102 +1,131 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import AppHeader from '../AppHeader/AppHeader';
 import TaskList from '../TaskList/TaskList';
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import Footer from '../Footer/Footer';
+
 import '../App/App.css';
 
-export default class App extends React.Component {
-  maxId = 1;
-  state = {
+const App = () => {
+  const [state, setState] = useState({
     todoData: [],
     filter: 'all',
-  };
+  });
 
-  createTaskItem(label) {
+  const createTaskItem = (label) => {
     return {
       label,
       completed: false,
-      id: this.maxId++,
+      editing: false,
+      id: state.todoData.length,
+      date: new Date(),
     };
-  }
-
-  addItem = (text) => {
-    const newItem = this.createTaskItem(text);
-    this.setState(({ todoData }) => {
-      const newArrAdd = [...todoData, newItem];
-      return {
-        todoData: newArrAdd,
-      };
-    });
   };
 
-  deleteItem = (id) => {
-    this.setState(({ todoData }) => {
-      const index = todoData.findIndex((el) => el.id === id);
-      const before = todoData.slice(0, index);
-      const after = todoData.slice(index + 1);
-      const newArray = [...before, ...after];
-
-      return {
-        todoData: newArray,
-      };
-    });
+  const addItem = (text) => {
+    const newItem = createTaskItem(text);
+    const newArr = [...state.todoData, newItem];
+    setState((state) => ({
+      ...state,
+      todoData: newArr,
+    }));
   };
 
-  onToggleCompleted = (id) => {
-    this.setState(({ todoData }) => {
-      const index = todoData.findIndex((el) => el.id === id);
-      const oldItem = todoData[index];
+  const deleteItem = (id) => {
+    const index = state.todoData.findIndex((el) => el.id === id);
+    const before = state.todoData.slice(0, index);
+    const after = state.todoData.slice(index + 1);
+    const newArr = [...before, ...after];
+    setState((state) => ({
+      ...state,
+      todoData: newArr,
+    }));
+  };
+
+  const onToggleCompleted = (id) => {
+    setState((state) => {
+      const index = state.todoData.findIndex((el) => el.id === id);
+      const oldItem = state.todoData[index];
       const newItem = { ...oldItem, completed: !oldItem.completed };
-      const before = todoData.slice(0, index);
-      const after = todoData.slice(index + 1);
-      const newArray = [...before, newItem, ...after];
+      const newArr = [...state.todoData.slice(0, index), newItem, ...state.todoData.slice(index + 1)];
       return {
-        todoData: newArray,
-      };
-    });
-  };
-
-  filterItems = (filter) => {
-    this.setState({ filter });
-  };
-
-  filterTasks(todoData, filter) {
-    if (filter === 'all') return todoData;
-    if (filter === 'active') return todoData.filter((el) => !el.completed);
-    if (filter === 'completed') return todoData.filter((el) => el.completed);
-  }
-
-  clearAllCompleted = () => {
-    this.setState(({ todoData }) => {
-      const newArr = todoData.filter((el) => !el.completed);
-      return {
+        ...state,
         todoData: newArr,
       };
     });
   };
 
-  render() {
-    const { todoData, filter } = this.state;
-    const completedCount = todoData.filter((el) => el.completed).length;
-    const todoCount = todoData.length - completedCount;
-    const visibleItems = this.filterTasks(todoData, filter);
+  const onToggleEditing = (id) => {
+    setState((state) => {
+      const index = state.todoData.findIndex((el) => el.id === id);
+      const oldItem = state.todoData[index];
+      const newItem = { ...oldItem, editing: !oldItem.editing };
+      const newArr = [...state.todoData.slice(0, index), newItem, ...state.todoData.slice(index + 1)];
+      return {
+        ...state,
+        todoData: newArr,
+      };
+    });
+  };
 
-    return (
-      <section className="todoapp">
-        <AppHeader />
-        <section className="main">
-          <NewTaskForm onAdded={this.addItem} />
-          <TaskList todos={visibleItems} onDeleted={this.deleteItem} onToggleCompleted={this.onToggleCompleted} />
-          <Footer
-            toDo={todoCount}
-            onFilterItems={this.filterItems}
-            filter={filter}
-            onClearAllCompleted={this.clearAllCompleted}
-          />
-        </section>
+  const editItemValue = (text, id) => {
+    setState((state) => {
+      const index = state.todoData.findIndex((el) => el.id === id);
+      const oldItem = state.todoData[index];
+      const newItem = { ...oldItem, label: text };
+      const newArr = [...state.todoData.slice(0, index), newItem, ...state.todoData.slice(index + 1)];
+      return {
+        ...state,
+        todoData: newArr,
+      };
+    });
+  };
+
+  const filterItems = (todoData, filter) => {
+    if (filter === 'all') return todoData;
+    if (filter === 'active') return todoData.filter((el) => !el.completed);
+    if (filter === 'completed') return todoData.filter((el) => el.completed);
+  };
+
+  const onFilterItems = (filter) => {
+    setState((state) => ({
+      ...state,
+      filter,
+    }));
+  };
+
+  const clearAllCompleted = () => {
+    setState((state) => {
+      const newArr = state.todoData.filter((el) => !el.completed);
+      return {
+        ...state,
+        todoData: newArr,
+      };
+    });
+  };
+
+  const { todoData, filter } = state;
+  const completedCount = state.todoData.filter((el) => el.completed).length;
+  const todoCount = todoData.length - completedCount;
+  const visibleItems = filterItems(todoData, filter);
+
+  return (
+    <section className="todoapp">
+      <AppHeader />
+      <section className="main">
+        <NewTaskForm addItem={addItem} />
+        <TaskList
+          todos={visibleItems}
+          onDeleted={deleteItem}
+          onToggleCompleted={onToggleCompleted}
+          onToggleEditing={onToggleEditing}
+          editItemValue={editItemValue}
+        />
+        <Footer toDo={todoCount} clearAllCompleted={clearAllCompleted} onFilterItems={onFilterItems} filter={filter} />
       </section>
-    );
-  }
-}
+    </section>
+  );
+};
+
+export default App;
